@@ -1,4 +1,4 @@
-GPA Data - Mason:
+rGPA Data - Mason:
 
 grade_count (numeric) := number of grades of the certain letter_grade in the specific row 
 ccn (int) := course control number
@@ -11,3 +11,5 @@ letter_grade_subtype (string) := category of grade, letter grade without +/- (e.
 grade_type (string) := type of grade (letter grade, non-letter grade, administrative code)
 letter_grade (string) := the exact letter grade (e.g. A-, A+, F, Pass, Not Pass, Incomplete, Not Reported) 
 course_title (string) := name of the course (e.g. Concepts in Computing with Data)
+semester (string) := fa, su, sp (fall, summer, spring)
+year (int) := year class was offered
