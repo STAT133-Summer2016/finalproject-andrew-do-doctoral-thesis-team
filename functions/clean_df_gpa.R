@@ -11,5 +11,6 @@ clean_df_gpa = function(path) {
     names(df) = names
     
     #fix missing grade points
-    
+    df = df %>%
+        select(-dirty_col1, -dirty_col2)
 }
