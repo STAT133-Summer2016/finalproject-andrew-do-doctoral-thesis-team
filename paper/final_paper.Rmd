@@ -1,0 +1,6 @@
+---
+title: "Final Paper"
+author: "Mason Chen, Benny Chen, Dotun Fatade, Ian Katz"
+date: "August 9, 2016"
+output: pdf_document
+---
