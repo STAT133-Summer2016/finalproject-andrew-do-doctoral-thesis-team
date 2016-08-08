@@ -1,0 +1,15 @@
+rGPA Data - Mason:
+
+grade_count (numeric) := number of grades of the certain letter_grade in the specific row 
+ccn (int) := course control number
+instr_name (string) := instructor name
+grade_pts (numeric) := grade points for certain letter grade (e.g. A- = 3.7, D- = 0.7)
+department (string) := department of the class (e.g. Mathematics, Statistics)
+course_num (string) := course number (e.g. 133, 134, 135, 1A, 1B)
+sec_num (string) := section number (e.g. 001, 002)
+letter_grade_subtype (string) := category of grade, letter grade without +/- (e.g. A-, A, and A+ are in category A; B-, B, B+ are in category B, Pass in category Credit)
+grade_type (string) := type of grade (letter grade, non-letter grade, administrative code)
+letter_grade (string) := the exact letter grade (e.g. A-, A+, F, Pass, Not Pass, Incomplete, Not Reported) 
+course_title (string) := name of the course (e.g. Concepts in Computing with Data)
+semester (string) := fa, su, sp (fall, summer, spring)
+year (int) := year class was offered
