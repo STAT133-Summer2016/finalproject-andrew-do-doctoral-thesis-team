@@ -5,8 +5,7 @@ library(stringr)
 clean_df_gpa = function(dataset) {
     #Pass in path to dataset
     #Return clean df
-    df = read_csv(dataset) %>%
-        select(-1)
+    df = read_csv(dataset)
     #fix col names
     names = c('grade_id', 'grade_count', 'dirty_col1', 'dirty_col2', 'ccn', 
               'instr_name', 'grade_pts', 'department', 'course_num', 'sec_num', 
