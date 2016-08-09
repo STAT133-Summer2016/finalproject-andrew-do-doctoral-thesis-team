@@ -1,4 +1,4 @@
-rGPA Data - Mason:
+GPA Data - Mason:
 
 grade_count (numeric) := number of grades of the certain letter_grade in the specific row 
 ccn (int) := course control number
@@ -13,3 +13,26 @@ letter_grade (string) := the exact letter grade (e.g. A-, A+, F, Pass, Not Pass,
 course_title (string) := name of the course (e.g. Concepts in Computing with Data)
 semester (string) := fa, su, sp (fall, summer, spring)
 year (int) := year class was offered
+
+degree_data - Ian:
+
+year (int) := year of graduation
+semester (string) := semester of graduation (Spring, Fall, Summer)
+ethnicity (string) := ethnicity of the graduate
+gender (string) := gender of the graduate
+residency (string) := California residency status of the graduate
+college (string) := college of the graduate (Letters and Science, Engineering, Chemistry, etc.)
+major (string) := major of the graduate
+count (int) := number of people matching the criteria of the row
+
+grad_time_data - Ian:
+
+year (int) := year of graduation
+semester (string) := semester of graduation (Spring, Fall, Summer)
+entry_status (string) := entry status of the graduate (New Freshman, Transfer, Other)
+time_to_grad (numeric) := number of years it took to graduate, values under 2 are counted as 2, values greater than 6 are counted as 6, NA means the student did not graduate
+count (int) := number of people matching the criteria of the row
+ethnicity (string) := ethnicity of the graduate
+gender (string) := gender of the graduate
+residency (string) := California residency status of the graduate
+college (string) := college of the graduate (Letters and Science, Engineering, Chemistry, etc.)
