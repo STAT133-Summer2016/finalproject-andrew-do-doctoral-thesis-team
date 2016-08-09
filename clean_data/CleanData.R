@@ -28,7 +28,7 @@ degrees <- read_csv("../raw_data/degrees.csv.gz") %>%
   mutate(year = str_extract(year, "[0-9]{4}") %>% as.integer,
          residency = str_extract(residency, "^[^\\s]+"))
 
-write_csv(degrees, "cleaned_degrees.csv")
+write.csv(degrees, file = gzfile(str_c('degree_data.csv', '.gz')), row.names = F)
 
 grad_time <- read_csv("../raw_data/grad_time.csv.gz") %>% 
   select(c(-1, -5))
@@ -45,4 +45,4 @@ grad_time <- grad_time %>%
   mutate(year = year %>% as.integer,
          time_to_grad = str_extract(time_to_grad, "[.0-9]+") %>% as.numeric)
 
-write_csv(grad_time, "cleaned_grad_time.csv")
+write.csv(grad_time, file = gzfile(str_c('grad_time_data.csv', '.gz')), row.names = F)
