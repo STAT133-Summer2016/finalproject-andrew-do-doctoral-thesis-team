@@ -10,10 +10,39 @@ knitr::opts_chunk$set(echo = F)
 library(readr)
 library(dplyr)
 library(stringr)
+library(purrr)
+library(ggplot2)
 source("../functions/clean_df_gpa.R")
 ```
 
 ```{r}
+gpa_data = read_csv("../clean_data/gpa_data.csv.gz")
 
+letter_grade_data = gpa_data %>%
+    filter(grade_type == "Letter Grade")
+
+pnp_data = gpa_data %>%
+    filter(grade_type == "Non-Letter Grade")
+
+admin_code_data = gpa_data %>%
+    filter(grade_type == "Administrative Code")
 ```
+
+```{r}
+avg_gpa_data = letter_grade_data %>%
+    group_by(department, year, semester) %>%
+    mutate(points = grade_pts * grade_count) %>%
+    summarise(gpa = sum(points)/sum(grade_count)) %>%
+    ungroup() %>%
+    group_by(department) %>%
+    summarise(avg_gpa = mean(gpa)) %>%
+    ungroup() %>%
+    arrange(desc(avg_gpa))
+avg_gpa_data$
+
+avg_gpa_plot = avg_gpa_data %>%
+    ggplot(aes(reorder(department, avg_gpa), avg_gpa)) + geom_point()
+avg_gpa_plot
+```
+
 

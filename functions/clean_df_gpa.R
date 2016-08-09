@@ -3,6 +3,8 @@ library(dplyr)
 library(stringr)                                            
 
 clean_df_gpa = function(dataset) {
+    #Pass in path to dataset
+    #Return clean df
     df = read_csv(dataset) %>%
         select(-1)
     #fix col names
@@ -18,11 +20,12 @@ clean_df_gpa = function(dataset) {
                          'D\\+$' = 1.3, 'D$' = 1.0, 'D-$' = 0.7,
                          'F$' = 0)
     
-    term = str_split(dataset, "gpa")[[1]][1]
+    term = str_split(str_replace(dataset, "../raw_data/", ""), "gpa")[[1]][1]
     df = df %>%
         select(-1, -3, -4) %>%
         mutate(grade_pts = str_replace_all(letter_grade, grade_pt_mapping), 
                grade_pts = as.numeric(grade_pts), semester = str_sub(term, 1, 2),
-               year = as.integer(str_sub(3, 6)))
+               year = as.integer(str_sub(term, 3, 6)),
+               ccn = as.integer(ccn))
     return(df)
 }
