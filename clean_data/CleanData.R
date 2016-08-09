@@ -1,3 +1,7 @@
+library(readr)
+library(stringr)
+library(dplyr)
+library(tidyr)
 source("../functions/clean_df_gpa.R")
 #test if binding correctly
 #test = str_c(path, list.files(path, pattern = "gpa.csv.gz"))
@@ -10,3 +14,35 @@ gpa_data = do.call(rbind, dfs)
 
 write.csv(gpa_data, file = gzfile(str_c('gpa_data.csv', '.gz')), row.names = F)
 
+degrees <- read_csv("../raw_data/degrees.csv.gz") %>% 
+  filter(!is.na(`Semester Year Letter Cd Concat`) &
+           `Degree Level Desc` == "Bachelor") %>% 
+  select(year = `Semester Year Letter Cd Concat`,
+         semester = `Semester Nm`,
+         ethnicity = `Short Ethnic Desc`,
+         gender = `Gender Desc`,
+         residency = `Residency Status Desc`,
+         college = `College/School`,
+         major = Major,
+         count = `Student Headcount`) %>% 
+  mutate(year = str_extract(year, "[0-9]{4}") %>% as.integer,
+         residency = str_extract(residency, "^[^\\s]+"))
+
+write_csv(degrees, "cleaned_degrees.csv")
+
+grad_time <- read_csv("../raw_data/grad_time.csv.gz") %>% 
+  select(c(-1, -5))
+colnames(grad_time) <- c("year_semester",
+                         "entry_status",
+                         "time_to_grad",
+                         "count",
+                         "ethnicity",
+                         "gender",
+                         "residency",
+                         "college")
+grad_time <- grad_time %>% 
+  separate(col = year_semester, into = c("year", "semester"), sep = " ") %>% 
+  mutate(year = year %>% as.integer,
+         time_to_grad = str_extract(time_to_grad, "[.0-9]+") %>% as.numeric)
+
+write_csv(grad_time, "cleaned_grad_time.csv")
