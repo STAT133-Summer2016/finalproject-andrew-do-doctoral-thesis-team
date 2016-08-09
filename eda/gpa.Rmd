@@ -16,6 +16,9 @@ source("../functions/clean_df_gpa.R")
 ```
 
 ```{r}
+subject_area = read_csv("../clean_data/subject_area.csv")
+names(subject_area) = c("department", "canonical_name", "subject")
+
 gpa_data = read_csv("../clean_data/gpa_data.csv.gz")
 
 letter_grade_data = gpa_data %>%
@@ -36,13 +39,95 @@ avg_gpa_data = letter_grade_data %>%
     ungroup() %>%
     group_by(department) %>%
     summarise(avg_gpa = mean(gpa)) %>%
-    ungroup() %>%
-    arrange(desc(avg_gpa))
-avg_gpa_data$
+    ungroup()
 
+avg_gpa_data = inner_join(avg_gpa_data, subject_area, "department")
+
+#plotting the gpas least to greatest
 avg_gpa_plot = avg_gpa_data %>%
-    ggplot(aes(reorder(department, avg_gpa), avg_gpa)) + geom_point()
-avg_gpa_plot
+    ggplot(aes(avg_gpa, reorder(department, avg_gpa))) + geom_point()
+avg_gpa_plot + theme_bw()
+
+
+#too many departments, just going to look at the 20 highest and 20 lowest gpas
+highest_gpas = avg_gpa_data %>%
+    arrange(desc(avg_gpa)) %>%
+    head(20)
+
+highest_gpas %>%
+    ggplot(aes(factor(department), avg_gpa)) + 
+    geom_bar(stat = "identity", width = 0.5, aes(color = subject, fill = subject, alpha = 0.4)) + 
+    labs(list(title = "20 Highest GPAs by Departments", x = "Average GPA", y = "Department")) +
+    coord_flip() +
+    scale_x_discrete(limits = rev(highest_gpas$department)) +
+    scale_y_continuous(limits = c(0, 4.5), breaks = seq(0, 4.5, 0.5), expand = c(0, 0)) +
+    guides(alpha = F, fill = guide_legend(title = "Subject"), color = F) +
+    theme_bw()
+
+#20 lowest gpas
+lowest_gpas = avg_gpa_data %>%
+    arrange((avg_gpa)) %>%
+    head(20)
+
+lowest_gpas %>%
+    ggplot(aes(factor(department), avg_gpa)) + 
+    geom_bar(stat = "identity", width = 0.5, aes(color = subject, fill = subject, alpha = 0.4)) + 
+    labs(list(title = "20 Lowest GPAs by Departments", x = "Average GPA", y = "Department")) +
+    coord_flip() +
+    scale_x_discrete(limits = rev(lowest_gpas$department)) +
+    scale_y_continuous(limits = c(0, 4.5), breaks = seq(0, 4.5, 0.5), expand = c(0, 0)) +
+    guides(alpha = F, fill = guide_legend(title = "Subject"), color = F) + 
+    theme_bw()
 ```
+
+```{r}
+#passing rate, Satifactory/Unsatisfactory are not computed for credit
+pnp_pass_rate = inner_join(pnp_data, subject_area, "department") %>%
+    filter(letter_grade != "Satisfactory", letter_grade != "Unsatisfactory") %>%
+    mutate(grade_pts = ifelse(letter_grade == "Pass", 1, 0)) %>%
+    group_by(department, year, semester, subject) %>%
+    mutate(points = grade_pts * grade_count) %>%
+    summarise(gpa = sum(points)/sum(grade_count)) %>%
+    ungroup() %>%
+    group_by(department, subject) %>%
+    summarise(avg_gpa = mean(gpa)) %>%
+    ungroup()
+
+#too many departments, just going to look at the 20 highest and 20 lowest pass rates
+pnp_plot = pnp_pass_rate %>%
+    ggplot(aes(avg_gpa, reorder(department, avg_gpa))) + geom_point()
+pnp_plot + theme_bw()
+
+#too many departments, just going to look at the 20 highest and 20 lowest gpas
+highest_pnp = pnp_pass_rate %>%
+    arrange(desc(avg_gpa)) %>%
+    head(20)
+
+highest_pnp %>%
+    ggplot(aes(department, avg_gpa)) + 
+    geom_bar(stat = "identity", width = 0.5, aes(color = subject, fill = subject, alpha = 0.4)) + 
+    labs(list(title = "20 Highest Pass Rates by Departments", x = "Pass Percentage", y = "Department")) +
+    coord_flip() +
+    scale_x_discrete(limits = rev(highest_pnp$department)) +
+    scale_y_continuous(limits = c(0, 1), breaks = seq(0, 1, 0.15), expand = c(0, 0)) +
+    guides(alpha = F, fill = guide_legend(title = "Subject"), color = F) +
+    theme_bw()
+
+#20 lowest gpas
+lowest_pnp = pnp_pass_rate %>%
+    arrange((avg_gpa)) %>%
+    head(20)
+
+lowest_pnp %>%
+    ggplot(aes(department, avg_gpa)) + 
+    geom_bar(stat = "identity", width = 0.5, aes(color = subject, fill = subject, alpha = 0.4)) + 
+    labs(list(title = "20 Lowest Pass Rates by Departments", x = "Pass Percentage", y = "Department")) +
+    coord_flip() +
+    scale_x_discrete(limits = rev(lowest_pnp$department)) +
+    scale_y_continuous(limits = c(0, 1), breaks = seq(0, 1, 0.15), expand = c(0, 0)) +
+    guides(alpha = F, fill = guide_legend(title = "Subject"), color = F) +
+    theme_bw()
+```
+
 
 
