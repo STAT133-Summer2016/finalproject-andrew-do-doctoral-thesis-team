@@ -42,4 +42,12 @@ ethnicity (string) := ethnicity of the graduate
 gender (string) := gender of the graduate
 residency (string) := California residency status of the graduate
 college (string) := college of the graduate (Letters and Science, Engineering, Chemistry, etc.)
-Applicant Data - Benny:residency (string) := residency status ethnic_descr (string) := ethnicity of applicant major (string) := intended major of applicant HSRank (numeric) := high school ranking of applicant (1 - 10) year (string) := academic year applied headcount (numeric) := number of applicants in each category 
+
+Applicant Data - Benny:
+
+residency (string) := residency status
+ethnic_descr (string) := ethnicity of applicant
+major (string) := intended major of applicant
+HSRank (numeric) := high school ranking of applicant (1 - 10)
+year (string) := academic year applied
+headcount (numeric) := number of applicants in each category 
