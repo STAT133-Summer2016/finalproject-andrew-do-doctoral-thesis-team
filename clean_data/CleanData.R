@@ -56,11 +56,11 @@ grad_time <- grad_time %>%
 
 write.csv(grad_time, file = gzfile(str_c('grad_time_data.csv', '.gz')), row.names = F)
 
-multiple_fields_applied <- read_csv("MultipleFieldsApplied.csv")
+multiple_fields_applied <- read_csv("../raw_data/MultipleFieldsApplied.csv")
 
 multiple_fields_applied <- as.data.frame(multiple_fields_applied)
 
-multiple_fields_admitted <- read_csv("MultipleFieldsAdmitted.csv")
+multiple_fields_admitted <- read_csv("../MultipleFieldsAdmitted.csv")
 
 names(multiple_fields_applied) <- c("residency", "ethnic_descr", 
                                     "major", "HSRank","headcount", "year", "admit")
