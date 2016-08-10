@@ -15,6 +15,7 @@ semester (string) := fa, su, sp (fall, summer, spring)
 year (int) := year class was offered
 
 Subject Data (subject_area_gpa)- Mason:
+
 department (string) := department name with abbreviations (Ag & Environmental Chem)
 canonical_name (string) := full name of the departments (Agricultural & Environmental Chemistry
 )
