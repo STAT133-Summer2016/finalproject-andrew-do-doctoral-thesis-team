@@ -119,7 +119,9 @@ pnp_pass_rate = inner_join(pnp_data, subject_area, "department") %>%
 pnp_plot = pnp_pass_rate %>%
     ggplot(aes(avg_gpa, reorder(department, avg_gpa))) + geom_point()
 pnp_plot + theme_bw()
+```
 
+```{r}
 #too many departments, just going to look at the 20 highest and 20 lowest gpas
 highest_pnp = pnp_pass_rate %>%
     arrange(desc(avg_gpa)) %>%
@@ -134,7 +136,9 @@ highest_pnp %>%
     scale_y_continuous(limits = c(0, 1), breaks = seq(0, 1, 0.15), expand = c(0, 0)) +
     guides(alpha = F, fill = guide_legend(title = "Subject"), color = F) +
     theme_bw()
+```
 
+```{r}
 #20 lowest gpas
 lowest_pnp = pnp_pass_rate %>%
     arrange((avg_gpa)) %>%
@@ -150,6 +154,7 @@ lowest_pnp %>%
     guides(alpha = F, fill = guide_legend(title = "Subject"), color = F) +
     theme_bw()
 ```
+
 
 ```{r}
 #computer science gpa cap analysis
@@ -240,6 +245,57 @@ cs_data %>%
 ```
 
 ```{r}
+#cs lower divs comparison
+#include all cs classes
+cs_lower_gpa = letter_grade_data %>%
+    filter(department == "Computer Science", !str_detect(course_num, "[0-9]{3,}")) %>%
+    group_by(department, year, semester) %>%
+    mutate(points = grade_pts * grade_count) %>%
+    summarise(gpa = sum(points)/sum(grade_count), num_ppl = sum(grade_count)) %>%
+    ungroup() %>%
+    mutate(month = ifelse(semester == "fa", 9, ifelse(semester == "sp", 1, 5)), day = 1) %>%
+    mutate(date = ymd(str_c(year, month, day, sep = '/'))) %>%
+    arrange(date) %>%
+    mutate(semester = ifelse(semester == "fa", "Fall", 
+                             ifelse(semester == "sp", 
+                                    "Spring", "Summer")),
+           label = str_c(semester, year, sep = " "))
+
+cs_upper_gpa = letter_grade_data %>%
+    filter(department == "Computer Science", str_detect(course_num, "[0-9]{3,}")) %>%
+    group_by(department, year, semester) %>%
+    mutate(points = grade_pts * grade_count) %>%
+    summarise(gpa = sum(points)/sum(grade_count), num_ppl = sum(grade_count)) %>%
+    ungroup() %>%
+    mutate(month = ifelse(semester == "fa", 9, ifelse(semester == "sp", 1, 5)), day = 1) %>%
+    mutate(date = ymd(str_c(year, month, day, sep = '/'))) %>%
+    arrange(date) %>%
+    mutate(semester = ifelse(semester == "fa", "Fall", 
+                             ifelse(semester == "sp", 
+                                    "Spring", "Summer")),
+           label = str_c(semester, year, sep = " "))
+#lower div count
+sum(cs_lower_gpa$num_ppl)
+#lower div gpa
+mean(cs_lower_gpa$gpa)
+
+#upper div count
+sum(cs_upper_gpa$num_ppl)
+#upper div gpa
+mean(cs_upper_gpa$gpa)
+```
+
+```{r}
+#see how grades for important courses have changed
+cs_important_courses = letter_grade_data %>%
+    filter(department == "Computer Science", course_num %in% c("61A", "61B", "61C", "70", "170", "162")) %>%
+    group_by(course_num, year, semester) %>%
+    mutate(points = grade_pts * grade_count) %>%
+    summarise(gpa = sum(points)/sum(grade_count), num_ppl = sum(grade_count))
+    
+```
+
+```{r}
 #easiest classes
 easiest = letter_grade_data %>%
     group_by(department, course_num, year, semester) %>%
@@ -250,4 +306,110 @@ easiest = letter_grade_data %>%
     summarise(avg_gpa = mean(gpa)) %>%
     ungroup()
 ```
+
+```{r}
+#summer data
+summer_data = letter_grade_data %>%
+    filter(semester == "su") %>%
+    group_by(department, course_num, year, semester) %>%
+    mutate(points = grade_pts * grade_count) %>%
+    summarise(gpa = sum(points)/sum(grade_count)) %>%
+    ungroup() %>%
+    group_by(department, course_num) %>%
+    summarise(avg_gpa = mean(gpa)) %>%
+    ungroup() %>%
+    rename(gpa_su = avg_gpa)
+
+#in the year data
+in_year_data = letter_grade_data %>%
+    filter(semester != "su") %>%
+    group_by(department, course_num, year, semester) %>%
+    mutate(points = grade_pts * grade_count) %>%
+    summarise(gpa = sum(points)/sum(grade_count)) %>%
+    ungroup() %>%
+    group_by(department, course_num) %>%
+    summarise(avg_gpa = mean(gpa)) %>%
+    ungroup() %>%
+    rename(gpa_year = avg_gpa)
+
+num_courses = inner_join(in_year_data, summer_data, c("department", "course_num")) %>%
+    mutate(difference = gpa_year - gpa_su) %>%
+    group_by(department) %>%
+    summarise(n = length(department))
+
+summer_in_year_data = inner_join(in_year_data, summer_data, c("department", "course_num")) %>%
+    mutate(difference = gpa_year - gpa_su) %>%
+    inner_join(num_courses, "department") %>%
+    group_by(department, n) %>%
+    summarise(avg_diff = mean(difference)) %>%
+    ungroup() %>%
+    arrange(desc(avg_diff))
+
+arch = inner_join(in_year_data, summer_data, c("department", "course_num")) %>%
+    filter(department == "Architecture")
+
+#number of students by course
+num_students = letter_grade_data %>%
+    group_by(department, course_num) %>%
+    summarise(total = sum(grade_count))
+
+arch = inner_join(arch, num_students, c("department", "course_num"))
+#number of all arch students
+sum(arch$total)
+```
+
+```{r}
+#differences plot
+#summer data
+summer_data = letter_grade_data %>%
+    filter(semester == "su") %>%
+    group_by(department, course_num, year, semester) %>%
+    mutate(points = grade_pts * grade_count) %>%
+    summarise(gpa = sum(points)/sum(grade_count)) %>%
+    ungroup() %>%
+    group_by(department, course_num) %>%
+    summarise(avg_gpa = mean(gpa)) %>%
+    ungroup() %>%
+    rename(gpa_su = avg_gpa)
+
+#in the year data
+in_year_data = letter_grade_data %>%
+    filter(semester != "su") %>%
+    group_by(department, course_num, year, semester) %>%
+    mutate(points = grade_pts * grade_count) %>%
+    summarise(gpa = sum(points)/sum(grade_count)) %>%
+    ungroup() %>%
+    group_by(department, course_num) %>%
+    summarise(avg_gpa = mean(gpa)) %>%
+    ungroup() %>%
+    rename(gpa_year = avg_gpa)
+
+num_courses = inner_join(in_year_data, summer_data, c("department", "course_num")) %>%
+    mutate(difference = gpa_year - gpa_su) %>%
+    group_by(department) %>%
+    summarise(n = length(department))
+
+summer_in_year_data = inner_join(in_year_data, summer_data, c("department", "course_num")) %>%
+    mutate(difference = gpa_year - gpa_su) %>%
+    inner_join(num_courses, "department") %>%
+    group_by(department, n) %>%
+    summarise(avg_diff = mean(difference)) %>%
+    ungroup() %>%
+    arrange(desc(avg_diff))
+
+diff_df = inner_join(summer_in_year_data, subject_area) %>%
+    head(20)
+
+diff_df %>%
+    ggplot(aes(department, avg_diff)) + 
+    geom_bar(stat = "identity", width = 0.5, aes(color = subject, fill = subject, alpha = n)) + 
+    labs(list(title = "20 Highest Differences between Summer/Regular Semester", x = "Difference in GPA", y = "Department")) +
+    coord_flip() +
+    scale_x_discrete(limits = rev(diff_df$department)) +
+    scale_y_continuous(limits = c(0, 1), breaks = seq(0, 1, 0.15), expand = c(0, 0)) +
+    guides(alpha = F, fill = guide_legend(title = "Subject"), color = F) +
+    theme_bw()
+```
+
+
 
