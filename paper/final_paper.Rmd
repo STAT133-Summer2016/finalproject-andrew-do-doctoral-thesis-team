@@ -14,7 +14,10 @@ fontfamily: mathpazo
 fontsize: 12pt
 ---
 # Introduction
+# Graduation Rates by Ethnic Groups and Gender
 # Major and Ethnic Breakdown
 # Grade Point Averages of Departments
 
 Among faculty and students, there is a competitive spirit in the conversation of who has the toughest department or classes.
+
+#Conclusion
