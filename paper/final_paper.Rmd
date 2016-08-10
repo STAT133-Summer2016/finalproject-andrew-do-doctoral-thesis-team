@@ -83,7 +83,7 @@ Figure 1 shows that Biology, Statistics, Mathematics, and Physics are within the
 
 Another topic we wanted to study was the the differences in difficulty for regular-semester courses (spring and fall semesters) and summer courses. So, we found the average GPA for courses in the summer and in the regular school year over the period 2010 to 2015. Then, we computed the absolute difference of courses offered in the regular school year and in the summer. We found that there was an average of 0.21 GPA difference and that courses in the school year had a higher GPA by 0.04. Next, we were interested in the department that might be the most beneficial to take courses in the school year. Demography had the highest difference, a 0.72 difference, almost one letter grade! However, there is only one class in that department that is both offered in the summer and the regular school year. If we look for departments that offer more than five courses both in the summer and the regular school year, we find that Architecture has nine courses offered in both periods of time, which affects. In Architecture, the regular school year had a higher GPA by 0.56, which is half a letter grade, and this affect 2413 students. It would definitely be advisable to take Architecture courses during the school year then!
 
-```{r, fig.cap = "20 Highest Differences between Summer/Regular Semester", fig.asp = 0.5, fig.width = 10}
+```{r, fig.cap = "20 highest differences between summer/regular semester, opacity is proportion to number of courses offered by department", fig.asp = 0.5, fig.width = 10}
 #differences plot
 #summer data
 summer_data = letter_grade_data %>%
