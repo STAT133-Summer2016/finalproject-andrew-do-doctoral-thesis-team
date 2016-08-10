@@ -79,7 +79,7 @@ Affirmative action is a hotly debated issue. Proponents argue that it gives a bo
 
 Figure **INSERT** shows the ethnic breakdown of graduating students from 1983 to 2008. From 1983 to 1996, the percentage of white students dropped drastically. At the same time, the percentage of Asian, Latino, and international students grew significantly. Interestingly, despite being considered a primary target for affirmative action policies, the population of black students from 1983 to 1996 barely fluctuated, maintaining a steady average of 4.879% of the student population. So, despite strong affirmative action policies, black students were still underrepresented at UC Berkeley.
 
-```{r}
+```{r, fig.cap = "Ethnic breakdown of Berkeley over time, by percentage of the student population."}
 grad_time_data <- read_csv("../clean_data/grad_time_data.csv.gz")
 
 ethnic_breakdown <- grad_time_data %>% 
@@ -115,7 +115,7 @@ According to the data, students have been graduating faster over the past thirty
 
 Further trends can be discovered by dividing the students up into different categories. Females graduate faster than males, on average. Out-of-state students graduate slightly faster than in-state students. The ethnic breakdown of graduation time is shown in figure **INSERT**. The residency gap can be explained by the increased tuition costs for out-of-state students. This would also explain why international students graduate faster compared to other groups of students. The rest of the ethnicity gap may be explained cultural and socioeconomic factors that affect school performance, but further research would be required to draw any definitive conclusions.
 
-```{r}
+```{r, fig.cap = "Graduation time by ethnicity. Only includes data from students who entered Berkeley as a freshman."}
 grad_time_by_ethnicity <- grad_time_data %>% 
   filter(entry_status == "New Freshmen",
          !is.na(time_to_grad)) %>% 
@@ -135,9 +135,9 @@ ggplot(grad_time_by_ethnicity) +
   theme_bw()
 ```
 
-An interesting metric to analyze is the graduation time by college. Figure **INSERT** shows this breakdown. Students in Chemistry, Environmental Design, and Natural Resources take longer to graduate than their peers in Letters & Science and Engineering. The majors offered by the Engineering department are generally considered to be difficult, but students actually complete these majors relatively quickly compared to majors offered by other colleges. The longer graduation times from the Chemistry, Environmental Design, and Natural Resources colleges may be explained by the career paths for students in these departments. Perhaps it is common in these fields to take an extra semester in order to learn as much as possible before beginning research or industry jobs. Perhaps it is common to take a co-op job, which often delays graduation by a semester or two. Whatever the reason may be, it appears that the perceived difficulty of the majors offered by each department do not correlate with how long it takes to graduate.
+An interesting metric to analyze is the graduation time by college. Figure **INSERT** shows this breakdown. Haas is not included because incoming freshman are not admitted into Haas, so the time taken to graduate by students in Haas is skewed compared to students in other colleges. Students in Chemistry, Environmental Design, and Natural Resources take longer to graduate than their peers in Letters & Science and Engineering. The majors offered by the Engineering department are generally considered to be difficult, but students actually complete these majors relatively quickly compared to majors offered by other colleges. The longer graduation times from the Chemistry, Environmental Design, and Natural Resources colleges may be explained by the career paths for students in these departments. Perhaps it is common in these fields to take an extra semester in order to learn as much as possible before beginning research or industry jobs. Perhaps it is common to take a co-op job, which often delays graduation by a semester or two. Whatever the reason may be, it appears that the perceived difficulty of the majors offered by each department do not correlate with how long it takes to graduate.
 
-```{r}
+```{r, fig.cap = "Gradation time by College. Only includes data from students who entered Berkeley as a freshman."}
 grad_time_by_college <- grad_time_data %>% 
   filter(entry_status == "New Freshmen" &
          college != "Haas School of Business" &
