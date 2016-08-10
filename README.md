@@ -7,6 +7,8 @@ In our project, we are going to use the data sets found on Cal Answers to invest
 
 How to Export Data (CSV, XML, Tab Delimited): http://calanswers.berkeley.edu/sites/default/files/quick_start_guide_09182015.pdf
 
+Note: There is no script to download the data because the data is proprietary.
+
 Folders in the repo:
 raw_data - contains the compressed raw data files and codebook.txt
 clean_data - contains the cleaning script and cleaned data files
