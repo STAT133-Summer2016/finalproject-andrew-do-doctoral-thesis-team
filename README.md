@@ -5,6 +5,22 @@ Cal Answers: https://calanswers-bi.berkeley.edu:9804/analytics/saw.dll?BIEEHome
 
 How to Export Data (CSV, XML, Tab Delimited): http://calanswers.berkeley.edu/sites/default/files/quick_start_guide_09182015.pdf
 
-Questions to Explore: 
+Folders in the repo:
+raw_data - contains the compressed raw data files and codebook.txt
+clean_data - contains the cleaning script and cleaned data files
+eda - our exploration of the data
+functions - contains functions used throughout the project
+presentation - contains the pdf file of our presentation
+paper - contains the Rmd and pdf files of our paper
 
-_PLEASE PULL BEFORE YOU PUSH_
+Libraries used:
+readr
+stringr
+dplyr
+tidyr
+purrr
+ggplot2
+lubridate
+
+How to produce the final paper:
+Open RStudio and knit the paper

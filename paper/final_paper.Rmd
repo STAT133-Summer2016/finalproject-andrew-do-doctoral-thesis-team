@@ -159,3 +159,11 @@ ggplot(grad_time_by_college) +
   theme_bw()
 ```
 
+
+**Conclusion**
+
+The data and analysis revealed many interesting results. Trends in the economy can have an impact on which students are admitted, what majors are chosen, and how fast people graduate. Policy changes made by the state of California regarding affirmative action have greatly affected the ethnic makeup of Berkeley students. The composition of inteded majors can greatly differ in terms of ethnic makeup. Policy changes are an appropriate method for dealing with the limited resources and growing student interest in computer science.
+
+Although we had a wealth of data to work with, our research did have some limitations. While some Dashboards go as far back as 1983, some only contain a few years worth of data. In some cases, the data is split up over many tables with no varaibles to properly join the tables together. So, it is not always possible to directly compare two variables with each other. Ideas that could be incorporated into future research are getting access to the restricted Dashboards, gathering data from outside sources, and finding other ways to categorize and measure the student body.
+
+There are a number of further topics that could be explored. What is the perceived difficulty of classes according students? How do these perceptions match up with the difficulty according to GPA? What percentile you need to achieve a particular letter grade for a given class? What is the average GPA of students by ethnicity, gender, and residency status? What factors influence the majors that students pick? All of these questions would be excellent springboards for future investigations of UC Berkeley student data.
