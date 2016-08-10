@@ -1,4 +1,4 @@
-GPA Data - Mason:
+GPA Data (all files with gpa in the name) - Mason:
 
 grade_count (numeric) := number of grades of the certain letter_grade in the specific row 
 ccn (int) := course control number
@@ -13,6 +13,12 @@ letter_grade (string) := the exact letter grade (e.g. A-, A+, F, Pass, Not Pass,
 course_title (string) := name of the course (e.g. Concepts in Computing with Data)
 semester (string) := fa, su, sp (fall, summer, spring)
 year (int) := year class was offered
+
+Subject Data (subject_area_gpa)- Mason:
+department (string) := department name with abbreviations (Ag & Environmental Chem)
+canonical_name (string) := full name of the departments (Agricultural & Environmental Chemistry
+)
+subject (string) := Social Science, Natural Science, Engineering, Language, Professional, Arts & humanities, Formal science, Other
 
 degree_data - Ian:
 

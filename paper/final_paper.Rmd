@@ -3,21 +3,73 @@ author: "Benny Chen, Mason Chen, Dotun Fatade, Ian Katz"
 date: "August 9, 2016"
 output: 
   pdf_document:
-    fig_caption: yes
+    fig_caption: true
     latex_engine: pdflatex
     template: svm-latex-ms.tex
 title: "  Statistics 133 Final Paper: Cal Answers Data Exploration"
 #thanks: "Thanks to the github user svmiller for the tex template"
-abstract: "This document provides an introduction to R Markdown, argues for its..."
+#abstract: "This document provides an introduction to R Markdown, argues for its..."
 geometry: margin=1in
 fontfamily: mathpazo
 fontsize: 12pt
 ---
-# Introduction
-# Graduation Rates by Ethnic Groups and Gender
-# Major and Ethnic Breakdown
-# Grade Point Averages of Departments
 
-Among faculty and students, there is a competitive spirit in the conversation of who has the toughest department or classes.
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = F, message = F, error = F, warning = F)
+library(readr)
+library(dplyr)
+library(stringr)
+library(purrr)
+library(ggplot2)
+library(lubridate)
+source("../functions/clean_df_gpa.R")
+```
 
-#Conclusion
+**Grade Point Averages of Departments**
+
+Among faculty and students, there is a competitive spirit in the conversation of who has the toughest department or classes. There is great honor knowing that one is the taking courses in toughest department at UC Berkeley. Typically, there is not much agreement on which department is the hardest to take courses in because of bias, so this paper will try to find the true answer.
+
+First, we took 18 semesters of grades starting from the 2010 school year to the present (2010 summer semester to 2016 spring semester). Our GPA calculation deviates from the normal Berkeley GPA calculation--instead, we counted A+ as 4.3 grade points. Our reasoning is that A+ is the hardest grade to get; in fact, out of 1189583 letter grades only 61124 people got A+'s, which only is five percent of that population! In addition, a course that is consistently giving out A+'s to students is definitely easier than a course than gives out as many A's. So, we found the average GPA by department, and the twenty departments with the highest GPA's came out as one might predict. 70% of this category is made up by language departments like Filipino, Tamil, Turkish, Korean, Vietnamese, etc. However, does this near-uniformity in subject hold for the twenty lowest GPA's? 
+
+```{r, fig.cap = "As you can see, there is a lot more variety"}
+subject_area = read_csv("../clean_data/subject_area.csv")
+names(subject_area) = c("department", "canonical_name", "subject")
+
+gpa_data = read_csv("../clean_data/gpa_data.csv.gz")
+
+letter_grade_data = gpa_data %>%
+    filter(grade_type == "Letter Grade")
+
+#number of students in each department
+num_students = letter_grade_data %>%
+    group_by(department) %>%
+    summarise(total = sum(grade_count))
+average_class_size = mean(num_students$total)
+
+avg_gpa_data = letter_grade_data %>%
+    group_by(department, year, semester) %>%
+    mutate(points = grade_pts * grade_count) %>%
+    summarise(gpa = sum(points)/sum(grade_count)) %>%
+    ungroup() %>%
+    group_by(department) %>%
+    summarise(avg_gpa = mean(gpa)) %>%
+    ungroup()
+
+avg_gpa_data = inner_join(avg_gpa_data, subject_area, "department")
+
+#20 lowest gpas
+lowest_gpas = avg_gpa_data %>%
+    arrange((avg_gpa)) %>%
+    head(20)
+
+lowest_gpas %>%
+    ggplot(aes(factor(department), avg_gpa)) + 
+    geom_bar(stat = "identity", width = 0.5, aes(color = subject, fill = subject, alpha = 0.4)) + 
+    labs(list(title = "20 Lowest GPAs by Departments", x = "Average GPA", y = "Department")) +
+    coord_flip() +
+    scale_x_discrete(limits = (lowest_gpas$department)) +
+    scale_y_continuous(limits = c(0, 4.5), breaks = seq(0, 4.5, 0.5), expand = c(0, 0)) +
+    guides(alpha = F, fill = guide_legend(title = "Subject"), color = F) + 
+    theme_bw()
+```
+

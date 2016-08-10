@@ -33,6 +33,16 @@ admin_code_data = gpa_data %>%
 ```
 
 ```{r}
+#percentage of letter grade breakdown
+percent = letter_grade_data %>%
+    group_by(letter_grade) %>%
+    summarise(total = sum(grade_count))
+tot = sum(percent$total) #total letter grades
+61124/tot # percent of A+
+```
+
+
+```{r}
 #number of students in each department
 num_students = letter_grade_data %>%
     group_by(department) %>%
