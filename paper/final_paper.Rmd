@@ -25,6 +25,12 @@ library(lubridate)
 source("../functions/clean_df_gpa.R")
 ```
 
+##**Introduction**
+
+Cal Answers is a tool created by UC Berkeley that tracks student and faculty data. Data is stored in "Dashboards" that are specific to a topic of interest. In a Dashboard, users can select variables and see tables, charts, and graphs based on the varaibles that they selected. The amount of data on Cal Answers is vast, but our research is focused on a few specific Dashboards. We investigated the ethnic makeup of applicants and students, GPA averages by department and semester, and time taken for students to graduate.
+
+With the data from Cal Answers, we can see various combinations of demographic data, education data, and class data over a long period of time. By examining these comibinations, we are able to analyze what changes in the student body are occurring over time. We can also investigate what effects economic, social, and policy changes have on the Berkeley campus. Understanding these effects provides insight into what causes changes in student behavior. This would be important information for the administration to help them create good policies and provide the best experience for Berkeley students. It is also interesting just to see what trends occur in the student body and what causes these trends.
+
 ##**Grade Point Averages of Departments**
 
 Among faculty and students, there is a competitive spirit in the conversation of who has the toughest department or classes. There is great honor knowing that one is the taking courses in toughest department at UC Berkeley. Typically, there is not much agreement on which department is the hardest to take courses in because of bias, so this paper will try to find the true answer.
