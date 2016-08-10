@@ -3,6 +3,8 @@ Mason Chen, Ian Katz, Benny Chen, Dotun Lytton-Fatade
 
 Cal Answers: https://calanswers-bi.berkeley.edu:9804/analytics/saw.dll?BIEEHome
 
+In our project, we are going to use the data sets found on Cal Answers to investigate questions about undergraduates at UC Berkeley. Topics of the investigation include ethnic makeup of students and classes, trends in graduation time, and GPA trends.
+
 How to Export Data (CSV, XML, Tab Delimited): http://calanswers.berkeley.edu/sites/default/files/quick_start_guide_09182015.pdf
 
 Folders in the repo:
