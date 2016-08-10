@@ -1,0 +1,95 @@
+---
+title: "Eda"
+author: "Benny Chen"
+date: "August 9, 2016"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(readr)
+library(dplyr)
+library(stringr)
+library(ggplot2)
+```
+
+```{r}
+african_american_majors <- c("Afr Amer Stds-Humanities", "Afr Amer Stds-Social Sci",
+                             "African American Studies") #Group related majors
+
+african_american_studies <- read_csv("multiple_fields_percentages.csv") %>%
+  group_by(residency, ethnic_descr, admit) %>%
+  mutate(total_count = sum(headcount)) %>%
+  filter(major %in% african_american_majors,
+         ethnic_descr != "Decline to State") %>% #Decline to state not explicit
+  group_by(residency, ethnic_descr, admit) %>%
+  mutate(count= sum(headcount)) %>%
+  group_by(residency, ethnic_descr, admit, count) %>%
+  distinct(total_count) %>%
+  filter(count != 0) %>% #Could keep 0s. 
+  ungroup() %>%
+  mutate(eth_abbr = str_sub(ethnic_descr, 1, 2 ), # x- axis overlap
+         percentage = count / total_count * 100)
+
+afr <- ggplot(african_american_studies) +
+  geom_point(aes(x = eth_abbr, y = percentage, color = ethnic_descr, 
+                 fill = admit, size = count), #fill by only 2?
+             shape = 21, alpha = 0.7, stroke = 2.5) +
+  facet_wrap(~residency) + #Black and white is more clear
+  scale_y_log10() +
+  scale_size_continuous(range = c(3, 10)) +
+  scale_color_manual(name = "Ethnicity",
+                     values = c("#922B21", "#D4AC0D", "#7D6608",
+                                "#82E0AA", "#F7DC6F", "#1A5276",
+                                "#1D8348", "#E74C3C", "#4A235A",
+                                "#186A3B", "#34495E", "#D35400",
+                                "#E6B0AA", "#2980B9")) +
+  labs(title = "African-American Studies \n and \n Related Majors", #Lessen overlap
+       y = "Percentage", x = "Ethnicity") +
+  guides(size = F)  #Legend has too many elements, should group ethnicities if appropriate
+                #Can try to incorporate time to show changes, could use total as summary 
+                #Keep international separate.
+                #take out HSRank 
+afr
+```
+
+```{r}
+american_studies <- read_csv("american_studies.csv")
+
+amer <- ggplot(american_studies) +
+  geom_line(aes(x = year, y = percentage, color = ethnic_descr, 
+                size = ethnic_count), alpha = 0.75) +
+  guides(size = F) +
+  scale_size_continuous(range = c(0.5, 1.5)) + #Lines vary in size too much
+  facet_wrap(~admit) +
+  scale_x_continuous(limits = c(2000, 2017), breaks = seq(2000, 2015, 5),
+                     minor_breaks = seq(2000, 2015, 2)) +
+  scale_color_manual(name = "Ethnicity", 
+                     values = c("#B0171F", "#EEC900", "#006400",
+                                "#008B8B", "#0000EE")) +
+  labs(title = "American Studies", y = "Percentage", x = "Year",
+       caption ="Figure 1") +
+  theme_bw()  #Facet axes overlap some
+
+amer
+```
+
+```{r}
+top_majors <- read_csv("top_majors.csv")
+top_majors_2000 <- top_majors %>%
+  filter(year == 2000) 
+  
+top_2000 <- ggplot(top_majors_2000, aes(x = ethnic_descr, y = n, fill = major)) +
+  geom_bar(stat = "identity") + #Try side by side
+  coord_flip()  + 
+  facet_wrap(~residency) +
+  labs(title = "Top Majors in 2000", x = "Ethnicity", 
+       y = "Count") +                 #Clear Label
+  scale_y_log10() + #Labels were getting cut off expand plot width
+  theme_bw() +
+  geom_text(aes(x = ethnic_descr, y = n, label = major),  #Fill with residency instead
+            position = position_dodge(width = 0.9)) 
+top_2000
+```
+
+

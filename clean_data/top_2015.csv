@@ -1,0 +1,13 @@
+residency,ethnic_descr,year,major,admit,n
+CA Resident,African American/Black,2015,Psychology,Applied,187
+CA Resident,Asian,2015,Electrical Eng & Comp Sci,Applied,1670
+CA Resident,Decline to State,2015,Electrical Eng & Comp Sci,Applied,134
+CA Resident,Hispanic,2015,Electrical Eng & Comp Sci,Applied,765
+CA Resident,Native American/Alaska Native,2015,Psychology,Applied,15
+CA Resident,White,2015,Electrical Eng & Comp Sci,Applied,660
+Out of State Domestic,African American/Black,2015,Electrical Eng & Comp Sci,Applied,119
+Out of State Domestic,Asian,2015,Electrical Eng & Comp Sci,Applied,1082
+Out of State Domestic,Decline to State,2015,Electrical Eng & Comp Sci,Applied,112
+Out of State Domestic,Hispanic,2015,Electrical Eng & Comp Sci,Applied,134
+Out of State Domestic,Native American/Alaska Native,2015,Engineering Undeclared,Applied,10
+Out of State Domestic,White,2015,Electrical Eng & Comp Sci,Applied,608

@@ -1,0 +1,13 @@
+residency,ethnic_descr,year,major,admit,n
+CA Resident,African American/Black,2000,Psychology,Applied,78
+CA Resident,Asian,2000,Electrical Eng & Comp Sci,Applied,1045
+CA Resident,Decline to State,2000,Electrical Eng & Comp Sci,Applied,178
+CA Resident,Hispanic,2000,Psychology,Applied,204
+CA Resident,Native American/Alaska Native,2000,MCB-Biochem & Mol Biol,Applied,6
+CA Resident,White,2000,Electrical Eng & Comp Sci,Applied,450
+Out of State Domestic,African American/Black,2000,MCB-Biochem & Mol Biol,Applied,11
+Out of State Domestic,Asian,2000,Electrical Eng & Comp Sci,Applied,382
+Out of State Domestic,Decline to State,2000,Electrical Eng & Comp Sci,Applied,52
+Out of State Domestic,Hispanic,2000,Psychology,Applied,15
+Out of State Domestic,Native American/Alaska Native,2000,Electrical Eng & Comp Sci,Applied,3
+Out of State Domestic,White,2000,Electrical Eng & Comp Sci,Applied,219

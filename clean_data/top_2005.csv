@@ -1,0 +1,15 @@
+residency,ethnic_descr,year,major,admit,n
+CA Resident,African American/Black,2005,Psychology,Applied,125
+CA Resident,Asian,2005,MCB-Biochem & Mol Biol,Applied,789
+CA Resident,Decline to State,2005,Political Science,Applied,130
+CA Resident,Hispanic,2005,Political Science,Applied,285
+CA Resident,Native American/Alaska Native,2005,English,Applied,11
+CA Resident,White,2005,Political Science,Applied,572
+Out of State Domestic,African American/Black,2005,Political Science,Applied,9
+Out of State Domestic,Asian,2005,Electrical Eng & Comp Sci,Applied,160
+Out of State Domestic,Decline to State,2005,Electrical Eng & Comp Sci,Applied,26
+Out of State Domestic,Hispanic,2005,Electrical Eng & Comp Sci,Applied,16
+Out of State Domestic,Native American/Alaska Native,2005,L&S Legal Studies/Physics/Political Science,Applied,2
+Out of State Domestic,Native American/Alaska Native,2005,L&S Legal Studies/Physics/Political Science,Applied,2
+Out of State Domestic,Native American/Alaska Native,2005,L&S Legal Studies/Physics/Political Science,Applied,2
+Out of State Domestic,White,2005,Political Science,Applied,113
