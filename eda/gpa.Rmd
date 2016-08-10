@@ -12,6 +12,7 @@ library(dplyr)
 library(stringr)
 library(purrr)
 library(ggplot2)
+library(lubridate)
 source("../functions/clean_df_gpa.R")
 ```
 
@@ -32,6 +33,15 @@ admin_code_data = gpa_data %>%
 ```
 
 ```{r}
+#number of students in each department
+num_students = letter_grade_data %>%
+    group_by(department) %>%
+    summarise(total = sum(grade_count))
+average_class_size = mean(num_students$total)
+average_class_size
+```
+
+```{r}
 avg_gpa_data = letter_grade_data %>%
     group_by(department, year, semester) %>%
     mutate(points = grade_pts * grade_count) %>%
@@ -47,7 +57,6 @@ avg_gpa_data = inner_join(avg_gpa_data, subject_area, "department")
 avg_gpa_plot = avg_gpa_data %>%
     ggplot(aes(avg_gpa, reorder(department, avg_gpa))) + geom_point()
 avg_gpa_plot + theme_bw()
-
 
 #too many departments, just going to look at the 20 highest and 20 lowest gpas
 highest_gpas = avg_gpa_data %>%
@@ -78,6 +87,9 @@ lowest_gpas %>%
     scale_y_continuous(limits = c(0, 4.5), breaks = seq(0, 4.5, 0.5), expand = c(0, 0)) +
     guides(alpha = F, fill = guide_legend(title = "Subject"), color = F) + 
     theme_bw()
+
+#average gpa data with population size
+avg_gpa_class_size = inner_join(avg_gpa_data, num_students, "department")
 ```
 
 ```{r}
@@ -129,5 +141,103 @@ lowest_pnp %>%
     theme_bw()
 ```
 
+```{r}
+#computer science gpa cap analysis
 
+#include all cs classes
+cs_gpa = letter_grade_data %>%
+    filter(department == "Computer Science") %>%
+    group_by(department, year, semester) %>%
+    mutate(points = grade_pts * grade_count) %>%
+    summarise(gpa = sum(points)/sum(grade_count)) %>%
+    ungroup() %>%
+    mutate(month = ifelse(semester == "fa", 9, ifelse(semester == "sp", 1, 5)), day = 1) %>%
+    mutate(date = ymd(str_c(year, month, day, sep = '/'))) %>%
+    arrange(date) %>%
+    mutate(semester = ifelse(semester == "fa", "Fall", 
+                             ifelse(semester == "sp", 
+                                    "Spring", "Summer")),
+           label = str_c(semester, year, sep = " "))
+
+cs_size = letter_grade_data %>%
+    filter(department == "Computer Science") %>%
+    group_by(semester, year) %>%
+    summarise(total = sum(grade_count)) %>%
+    ungroup %>%
+    mutate(semester = ifelse(semester == "fa", "Fall", 
+                             ifelse(semester == "sp", 
+                                    "Spring", "Summer")),
+           label = str_c(semester, year, sep = " ")) %>%
+    select(label, total)
+
+cs_data = inner_join(cs_gpa, cs_size, "label")    
+
+cs_data %>%
+    ggplot(aes(date, gpa)) + 
+    geom_line(color = "black") +
+    geom_point(aes(size = total, color = semester)) +
+    scale_x_date(breaks = cs_data$date, labels = cs_data$label) +
+    theme_bw() +
+    theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+    guides(size = F, color = guide_legend(title = "Semester")) +
+    scale_color_manual(values = c("purple", "blue", "green")) +
+    annotate("segment", x = ymd("2014/1/1"), xend = ymd("2014/1/1"), y = min(cs_data$gpa), yend = max(cs_data$gpa), colour = "red") +
+    scale_size_area(max_size = 10) +
+    labs(list(title = "GPA and Number of Students across Semesters", x = "Semester", y = "Average GPA"))
+```
+
+```{r}
+#include all cs classes
+cs_gpa = letter_grade_data %>%
+    filter(department == "Computer Science", str_detect(course_num, "[0-9]{3,}")) %>%
+    group_by(department, year, semester) %>%
+    mutate(points = grade_pts * grade_count) %>%
+    summarise(gpa = sum(points)/sum(grade_count)) %>%
+    ungroup() %>%
+    mutate(month = ifelse(semester == "fa", 9, ifelse(semester == "sp", 1, 5)), day = 1) %>%
+    mutate(date = ymd(str_c(year, month, day, sep = '/'))) %>%
+    arrange(date) %>%
+    mutate(semester = ifelse(semester == "fa", "Fall", 
+                             ifelse(semester == "sp", 
+                                    "Spring", "Summer")),
+           label = str_c(semester, year, sep = " "))
+
+cs_size = letter_grade_data %>%
+    filter(department == "Computer Science", str_detect(course_num, "[0-9]{3,}")) %>%
+    group_by(semester, year) %>%
+    summarise(total = sum(grade_count)) %>%
+    ungroup %>%
+    mutate(semester = ifelse(semester == "fa", "Fall", 
+                             ifelse(semester == "sp", 
+                                    "Spring", "Summer")),
+           label = str_c(semester, year, sep = " ")) %>%
+    select(label, total)
+
+cs_data = inner_join(cs_gpa, cs_size, "label")
+
+cs_data %>%
+    ggplot(aes(date, gpa)) + 
+    geom_line(color = "black") +
+    geom_point(aes(size = total, color = semester)) +
+    scale_x_date(breaks = cs_data$date, labels = cs_data$label) +
+    theme_bw() +
+    theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+    guides(size = F, color = guide_legend(title = "Semester")) +
+    scale_color_manual(values = c("purple", "blue", "green")) +
+    annotate("segment", x = ymd("2014/1/1"), xend = ymd("2014/1/1"), y = min(cs_data$gpa), yend = max(cs_data$gpa), colour = "red") +
+    scale_size_area(max_size = 10) +
+    labs(list(title = "GPA and Number of Students in Upper Divs\n across Semesters", x = "Semester", y = "Average GPA"))
+```
+
+```{r}
+#easiest classes
+easiest = letter_grade_data %>%
+    group_by(department, course_num, year, semester) %>%
+    mutate(points = grade_pts * grade_count) %>%
+    summarise(gpa = sum(points)/sum(grade_count)) %>%
+    ungroup() %>%
+    group_by(department, course_num) %>%
+    summarise(avg_gpa = mean(gpa)) %>%
+    ungroup()
+```
 

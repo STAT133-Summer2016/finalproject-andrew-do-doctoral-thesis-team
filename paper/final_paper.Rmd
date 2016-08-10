@@ -1,6 +1,20 @@
 ---
-title: "Final Paper"
-author: "Mason Chen, Benny Chen, Dotun Fatade, Ian Katz"
+author: "Benny Chen, Mason Chen, Dotun Fatade, Ian Katz"
 date: "August 9, 2016"
-output: pdf_document
+output: 
+  pdf_document:
+    fig_caption: yes
+    latex_engine: pdflatex
+    template: svm-latex-ms.tex
+title: "  Statistics 133 Final Paper: Cal Answers Data Exploration"
+#thanks: "Thanks to the github user svmiller for the tex template"
+abstract: "This document provides an introduction to R Markdown, argues for its..."
+geometry: margin=1in
+fontfamily: mathpazo
+fontsize: 12pt
 ---
+# Introduction
+# Major and Ethnic Breakdown
+# Grade Point Averages of Departments
+
+Among faculty and students, there is a competitive spirit in the conversation of who has the toughest department or classes.
