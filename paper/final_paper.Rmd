@@ -73,3 +73,89 @@ lowest_gpas %>%
     theme_bw()
 ```
 
+**Affirmative Action and the Ethnic Makeup of UC Berkeley Students**
+
+Affirmative action is a hotly debated issue. Proponents argue that it gives a boost to minorities who badly need the increased educational opportunities. Opponents argue that the college admissions should be as close to a meritocracy as possible and that race-based admissions are unfair to the top students. Whether affirmative action has had a positive or negative on the school and its students is a difficult question to address, but the direct effect of affirmative action policies on the composition of the student body is clear. UC Berkeley had an affirmative action policy in place up until 1996, when California made it illegal for public universities to discriminate on the basis of race. By observing the racial composition of graduating students over time, we can see how the 1996 ban changed the ethnic makeup of the student body.
+
+Figure **INSERT** shows the ethnic breakdown of graduating students from 1983 to 2008. From 1983 to 1996, the percentage of white students dropped drastically. At the same time, the percentage of Asian, Latino, and international students grew significantly. Interestingly, despite being considered a primary target for affirmative action policies, the population of black students from 1983 to 1996 barely fluctuated, maintaining a steady average of 4.879% of the student population. So, despite strong affirmative action policies, black students were still underrepresented at UC Berkeley.
+
+```{r}
+grad_time_data <- read_csv("../clean_data/grad_time_data.csv.gz")
+
+ethnic_breakdown <- grad_time_data %>% 
+  group_by(year) %>% 
+  mutate(year_total = sum(count)) %>% 
+  ungroup %>% 
+  group_by(ethnic_category, year) %>% 
+  summarise(perc = sum(count / year_total))
+
+ggplot(ethnic_breakdown) + 
+  geom_area(aes(x = year, y = perc, fill = ethnic_category)) + 
+  scale_x_continuous(limits = c(NA, NA),
+                     breaks = seq(1983, 2015, 8),
+                     expand = c(0, 0)) +
+  scale_y_continuous(limits = c(0, 1), 
+                     expand = c(0, 0)) + 
+  labs(title = "Ethnic Breakdown of Students",
+       x = "Year",
+       y = "Percentage of Students") + 
+  scale_fill_brewer(name = "Ethnicity", type = "qual", palette = 6) + 
+  theme_bw()
+```
+
+After 1996, the ethnic composition of Berkeley began to stabilize. The average percentage of black students between 1996 and 2015 was 4.382%, so it slightly declined during this time. However, besides this small decline, no group made any large fluctuations in percentage of the population until 2007. In 2007, the population of white and Asian students began do decline while the population of international students began to rise. This change can most likely be explained by economic reasons. Berkeley was likely feeling the effects of the sinking economy on its budget. By admitting more international students, a larger percentage of the student population would be paying out-of-state tuition. This could help Berkeley maintain its budget without having to cut services to students. However, this strategy decreased the in-state student acceptance rate, a side effect that did not make California tax-payers happy.
+
+It is also interesting to note which populations did not see any effect from affirmative action. The percentage of the student body that was Native American and Pacific Islander remained small and relatively unchanged over the thirty two year period. These groups are clearly underrepresented minorities, but affirmative action policies did not appear to have any effect on how many were admitted.
+
+**How Long do Students Take to Graduate**
+
+The time it takes to graduate can be influenced by a variety of factors. The difficulty of the major, the individual academic strength of the student, and the cost of staying in school all affect how long it takes for a student to earn his or her degree. Over the past thirty years, the cost of tuition has skyrocketed. We can observe how this trend affects how long students stay in school, and we can further separate the student body by other metrics to see if there are other strong determiners of graduation time.
+
+According to the data, students have been graduating faster over the past thirty years. The average number of years spent in school by a student graduating in 1983 was 4.620. This number decreased almost every single year for the next thirty two years, with the average reaching 4.049 in 2008. We predicted this trend of time spent in school decreasing, as we expected rising tuition costs to push people to graduate faster. Still, the full extent of the trend was surprising. Students in 1983 spent on average more than an extra semester in school compared to students in 2008.
+
+Further trends can be discovered by dividing the students up into different categories. Females graduate faster than males, on average. Out-of-state students graduate slightly faster than in-state students. The ethnic breakdown of graduation time is shown in figure **INSERT**. The residency gap can be explained by the increased tuition costs for out-of-state students. This would also explain why international students graduate faster compared to other groups of students. The rest of the ethnicity gap may be explained cultural and socioeconomic factors that affect school performance, but further research would be required to draw any definitive conclusions.
+
+```{r}
+grad_time_by_ethnicity <- grad_time_data %>% 
+  filter(entry_status == "New Freshmen",
+         !is.na(time_to_grad)) %>% 
+  group_by(ethnic_category, year) %>% 
+  summarise(avg = sum(count * time_to_grad) / sum(count))
+
+ggplot(grad_time_by_ethnicity) + 
+  geom_line(aes(x = year, y = avg, color = ethnic_category), size = 0.75) + 
+  scale_x_continuous(limits = c(NA, 2008),
+                     breaks = seq(1983, 2008, 5),
+                     expand = c(0, 0)) + 
+  scale_y_continuous(limits = c(3, NA)) + 
+  labs(title = "Time to Graduate by Ethnicity",
+       x = "Year",
+       y = "Average Number of Years to Graduate") + 
+  scale_color_brewer(name = "Ethnicity", type = "qual", palette = 6) + 
+  theme_bw()
+```
+
+An interesting metric to analyze is the graduation time by college. Figure **INSERT** shows this breakdown. Students in Chemistry, Environmental Design, and Natural Resources take longer to graduate than their peers in Letters & Science and Engineering. The majors offered by the Engineering department are generally considered to be difficult, but students actually complete these majors relatively quickly compared to majors offered by other colleges. The longer graduation times from the Chemistry, Environmental Design, and Natural Resources colleges may be explained by the career paths for students in these departments. Perhaps it is common in these fields to take an extra semester in order to learn as much as possible before beginning research or industry jobs. Perhaps it is common to take a co-op job, which often delays graduation by a semester or two. Whatever the reason may be, it appears that the perceived difficulty of the majors offered by each department do not correlate with how long it takes to graduate.
+
+```{r}
+grad_time_by_college <- grad_time_data %>% 
+  filter(entry_status == "New Freshmen" &
+         college != "Haas School of Business" &
+         !is.na(time_to_grad) &
+         !is.na(college)) %>% 
+  group_by(college, year) %>% 
+  summarise(avg = sum(count * time_to_grad) / sum(count))
+
+ggplot(grad_time_by_college) + 
+  geom_line(aes(x = year, y = avg, color = college), size = 0.75) + 
+  scale_x_continuous(limits = c(NA, 2008),
+                     breaks = seq(1983, 2008, 5),
+                     expand = c(0, 0)) + 
+  scale_y_continuous(limits = c(3.5, 5)) + 
+  labs(title = "Time to Graduate by College",
+       x = "Year",
+       y = "Average Number of Years to Graduate") + 
+  scale_color_brewer(name = "College", type = "qual", palette = 6) + 
+  theme_bw()
+```
+
