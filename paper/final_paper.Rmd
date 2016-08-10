@@ -25,7 +25,7 @@ library(lubridate)
 source("../functions/clean_df_gpa.R")
 ```
 
-**Grade Point Averages of Departments**
+##**Grade Point Averages of Departments**
 
 Among faculty and students, there is a competitive spirit in the conversation of who has the toughest department or classes. There is great honor knowing that one is the taking courses in toughest department at UC Berkeley. Typically, there is not much agreement on which department is the hardest to take courses in because of bias, so this paper will try to find the true answer.
 
@@ -73,7 +73,7 @@ lowest_gpas %>%
     theme_bw()
 ```
 
-Figure **INSERT** shows that Biology, Statistics, Mathematics, and Physics are within the five departments with the lowest GPA's. It may be because they all are very popular departments and their lower division courses are 'weeder' courses. Courses like Biology 1A, Math 1B, Physics 7A, and Statistics 20 are required courses for many majors outside of the courses' respective departments.
+Figure 1 shows that Biology, Statistics, Mathematics, and Physics are within the five departments with the lowest GPA's. It may be because they all are very popular departments and their lower division courses are 'weeder' courses. Courses like Biology 1A, Math 1B, Physics 7A, and Statistics 20 are required courses for many majors outside of the courses' respective departments.
 
 Another topic we wanted to study was the the differences in difficulty for regular-semester courses (spring and fall semesters) and summer courses. So, we found the average GPA for courses in the summer and in the regular school year over the period 2010 to 2015. Then, we computed the absolute difference of courses offered in the regular school year and in the summer. We found that there was an average of 0.21 GPA difference and that courses in the school year had a higher GPA by 0.04. Next, we were interested in the department that might be the most beneficial to take courses in the school year. Demography had the highest difference, a 0.72 difference, almost one letter grade! However, there is only one class in that department that is both offered in the summer and the regular school year. If we look for departments that offer more than five courses both in the summer and the regular school year, we find that Architecture has nine courses offered in both periods of time, which affects. In Architecture, the regular school year had a higher GPA by 0.56, which is half a letter grade, and this affect 2413 students. It would definitely be advisable to take Architecture courses during the school year then!
 
@@ -177,16 +177,15 @@ cs_data %>%
     labs(list(title = "GPA and Number of Students in Upper Divs\n across Semesters", x = "Semester", y = "Average GPA"))
 ```
 
-We looked at only the upper division CS courses, since there are many people in the lower division courses who do not get into the CS major, as well as people who take the classes for fun. In the whole dataset, there are more people who take CS lower division courses than CS upper division courses and the GPA is higher by 0.11 for upper division courses, indicating that the smarter students were accepted into the major or that the upper division courses are easier (which is probably not the case from my experience). From figure **INSERT**, there is an increase in CS course enrollment. Comparing fall 2012 and spring 2016, the enrollment count doubled and the gpa stayed relatively the same. In addition the GPA average took a drop, and it is climbing up and looks to increase even more. It does seem that the CS department is dealing with the high increase of students very well; the GPA's are consistent from before the heavy increase of students. One may think that GPA would be lower since there are a finite amount of resources for teaching students and faculty size hasn't really changed much in the CS department to accomodate for more students.In fact, a professor in the last offering of CS61A (the introduction course in CS, which has the highest enrollment of all CS courses) advised students to study indepedently by watching webcasts and to not come to lecture or lab physically sections since there were not enough resources for each individual student. Although this might hinder student performance, the GPA, from the past school year, for the most important CS upper division courses like 162 and 170 has never been higher. All in all, the data supports the idea that the CS department is handling the depletion of resources well.
+We looked at only the upper division CS courses, since there are many people in the lower division courses who do not get into the CS major, as well as people who take the classes for fun. In the whole dataset, there are more people who take CS lower division courses than CS upper division courses and the GPA is higher by 0.11 for upper division courses, indicating that the smarter students were accepted into the major or that the upper division courses are easier (which is probably not the case from my experience). From figure 3, there is an increase in CS course enrollment. Comparing fall 2012 and spring 2016, the enrollment count doubled and the gpa stayed relatively the same. In addition the GPA average took a drop, and it is climbing up and looks to increase even more. It does seem that the CS department is dealing with the high increase of students very well; the GPA's are consistent from before the heavy increase of students. One may think that GPA would be lower since there are a finite amount of resources for teaching students and faculty size hasn't really changed much in the CS department to accomodate for more students.In fact, a professor in the last offering of CS61A (the introduction course in CS, which has the highest enrollment of all CS courses) advised students to study indepedently by watching webcasts and to not come to lecture or lab physically sections since there were not enough resources for each individual student. Although this might hinder student performance, the GPA, from the past school year, for the most important CS upper division courses like 162 and 170 has never been higher. All in all, the data supports the idea that the CS department is handling the depletion of resources well.
 
-**Major and Ethnic Breakdown**
-
+##**Major and Ethnic Breakdown**
 
 Here at Berkeley, there is a high value placed on promoting a connected community of different people. Many of the humanities majors aim to spread education of a certain group of people, through teaching of the language or promoting a cultural history. A good way to spread cultural understanding is having different groups of people undertaking intensive study of specific ethnicities or cultures. An examination of the ethnic composition of the applicants of these majors could reveal patterns of cross-cultural connectednes on the Berkeley campus.
 
 To begin our analysis, we selected list of majors, such as African American studies and other majors that encompass the study of a subset of the community and its culture. To simplify visualizations, we aggregated some groups under one larger umbrella group. Although a more granular analysis would be possible, aggregating the data still allows for an analysis of the diversity of the applicants of a major. Specifically for the case of African American Studies and majors pertaining to Asian and Asian American culture, we aggregated related majors together as it would better capture the scope of the study of these two cultures. International students and students who declined to state their ethnicity were not included in this analysis because it is unclear which ethnic categories would be appropriate for these applicants. Finally, we calculated the number of people in each ethnic group that applied to the major and the respective percentage out of the total number of applicants.
 
-```{r, fig.width = 9, fig.asp = 0.35 }
+```{r, fig.cap = "Ethnic Breakdown of American Studies Applicants", fig.width = 9, fig.asp = 0.35 }
 american_studies <- read_csv("../clean_data/american_studies.csv.gz")
 
 ggplot(american_studies) +
@@ -203,9 +202,9 @@ ggplot(american_studies) +
   theme_bw() 
 ```
 
-For applicants of the major of American Studies, there is a noticable increase in the diversity of the applicants over the years. Examining figure *INSERT*, in the year 2000, the applicants are predominantly white and although this continues over the course of the 15 years, there is a general trend of an increasing percentage of applicants from the other groups. 
+For applicants of the major of American Studies, there is a noticable increase in the diversity of the applicants over the years. Examining figure 4, in the year 2000, the applicants are predominantly white and although this continues over the course of the 15 years, there is a general trend of an increasing percentage of applicants from the other groups. 
 
-```{r, fig.width = 9, fig.asp = 0.4}
+```{r, fig.cap = "Ethnic Breakdown of African American Studies Applicants", fig.width = 8, fig.asp = 0.3}
 african_american_studies <- read_csv("../clean_data/african_american_studies.csv.gz")
 
 ggplot(african_american_studies) +
@@ -222,15 +221,13 @@ ggplot(african_american_studies) +
   theme_bw() 
 ```
 
-For African American studies and related majors, as shown in figure *INSERT*, the trend is the opposite of American studies. Over fifteen years, the African American group's prescense in the majors increases dramatically, while the ethnic composition started off quite even. It is important to note that there has been a consistent increase in the number of total applicants, but also a decreasing number of other applicants. More African Americans apply to these majors as there are less applicants from other ethnicities, so there is an overall decrease in the diversity.
+For African American studies and related majors, as shown in figure 5, the trend is the opposite of American studies. Over fifteen years, the African American group's prescense in the majors increases dramatically, while the ethnic composition started off quite even. It is important to note that there has been a consistent increase in the number of total applicants, but also a decreasing number of other applicants. More African Americans apply to these majors as there are less applicants from other ethnicities, so there is an overall decrease in the diversity.
 
 Looking at both African American studies and Asian studies and related majors, as well as other majors such as majors studying Asian culture and language, there appears to be a dominant ethnic group, and that group is the one that is associated with what the major aims to teach. For African American studies, that group would be African Americans and for Asian studies that group would be Asians. In these two groups in particular, the largest group makes up the vast majority of the applicants. This is would be consistent with the intuition that many poeple would choose to study what is familiar to them, at least when they are first choosing their major. They would generally be the most knowledgable of their own culture and in some cases would be the most interested in learning more about their cultural history. The explicit focus of these majors would compound the pattern further. 
 
 On the other hand, an interesting analysis emerges when looking at applicant data for the Ethnic Studies and American Studies majors. These major titles are comparatively less ethnically specific and focus on a broader range of groups. American Studies, for instance, looks into American history and society. Of course, the United States has a long history and a strong legacy of immigration. Although it can be difficult to define one as an American or not, this distinction would be more encompassing and would draw more associations than a distinction such as African American. 
 
-This idea plays out even more so for Ethnic Studies. The percentages of applicants from respective ethnic groups indicates that for many years, particularly around 2006 and 2007, each ethnic group was well represented with each group making up at least near 20% of applicants. Although this diverse composition disappears past 2010, the makeup of the applicants of the ethnic studies major further shows how diversity of students within a major is strongly affected by who the major aims to study. As such, there are certainly limitations to promoting cross-cultural connectedness and understading through a focused and thorough education path. 
-
-```{r, fig.width = 17, fig.asp = 0.25}
+```{r, fig.cap = "Top Majors 2000 by Ethnicity", fig.width = 17, fig.asp = 0.4}
 top_majors <- read_csv("../clean_data/top_majors.csv.gz")
 
 top_majors_2000 <- top_majors %>%
@@ -262,22 +259,24 @@ top_2015 <- ggplot(top_majors_2015, aes(x = ethnic_descr, y = n, fill = residenc
 top_2000
 ```
 
-```{r, fig.width = 17, fig.asp = 0.25}
+This idea plays out even more so for Ethnic Studies. The percentages of applicants from respective ethnic groups indicates that for many years, particularly around 2006 and 2007, each ethnic group was well represented with each group making up at least near 20% of applicants. Although this diverse composition disappears past 2010, the makeup of the applicants of the ethnic studies major further shows how diversity of students within a major is strongly affected by who the major aims to study. As such, there are certainly limitations to promoting cross-cultural connectedness and understading through a focused and thorough education path. 
+
+```{r, fig.cap = "Top Majors 2015 by Ethnicity", fig.width = 17, fig.asp = 0.6}
 top_2015
 ```
 
-As opposed to a more ethnic specific major, a nonhumanities major would be of broad appeal across groups. Comparing the second-most popular majors to the various ethnic groups shows interesting similarities, especially for students from other states. We can see from figure*INSERT* that for most groups that come from other states, electrical engineering and computer science are the most popular majors, and there are less groups that have non-science majors as the top choice of applicants. The major choice of the decline to state group further shows the widespread popularity of science and technology major, particularly electrical engineering, if it is assumed that this group is a collection of various ethnic groups. Of course, this would be difficult to prove but it is a reasonable assumption. 
+As opposed to a more ethnic specific major, a nonhumanities major would be of broad appeal across groups. Comparing the second-most popular majors to the various ethnic groups shows interesting similarities, especially for students from other states. We can see from figure 6 and 7 that for most groups that come from other states, electrical engineering and computer science are the most popular majors, and there are less groups that have non-science majors as the top choice of applicants. The major choice of the decline to state group further shows the widespread popularity of science and technology major, particularly electrical engineering, if it is assumed that this group is a collection of various ethnic groups. Of course, this would be difficult to prove but it is a reasonable assumption. 
 
 A potential driver of this pattern is the fact that out of state students likely have a higher cost of education than in state students. These students would choose to study majors that are widely perceived to lead to higher incomes, such as engineering. A lower financial burden possibly influences the major choices of domestic applicants, although engineering and related STEM majors are also widely popular but to a lesser extent. The major choices could also be attributed to the fact that there are substantially fewer out-of-state applicants than there are in state students, thus there are more limited and less diverse interest. 
 
 
-**Affirmative Action and the Ethnic Makeup of UC Berkeley Students**
+##**Affirmative Action and the Ethnic Makeup of UC Berkeley Students**
 
 Affirmative action is a hotly debated issue. Proponents argue that it gives a boost to minorities who badly need the increased educational opportunities. Opponents argue that the college admissions should be as close to a meritocracy as possible and that race-based admissions are unfair to the top students. Whether affirmative action has had a positive or negative on the school and its students is a difficult question to address, but the direct effect of affirmative action policies on the composition of the student body is clear. UC Berkeley had an affirmative action policy in place up until 1996, when California made it illegal for public universities to discriminate on the basis of race. By observing the racial composition of graduating students over time, we can see how the 1996 ban changed the ethnic makeup of the student body.
 
-Figure **INSERT** shows the ethnic breakdown of graduating students from 1983 to 2008. From 1983 to 1996, the percentage of white students dropped drastically. At the same time, the percentage of Asian, Latino, and international students grew significantly. Interestingly, despite being considered a primary target for affirmative action policies, the population of black students from 1983 to 1996 barely fluctuated, maintaining a steady average of 4.879% of the student population. So, despite strong affirmative action policies, black students were still underrepresented at UC Berkeley.
+Figure 8 shows the ethnic breakdown of graduating students from 1983 to 2008. From 1983 to 1996, the percentage of white students dropped drastically. At the same time, the percentage of Asian, Latino, and international students grew significantly. Interestingly, despite being considered a primary target for affirmative action policies, the population of black students from 1983 to 1996 barely fluctuated, maintaining a steady average of 4.879% of the student population. So, despite strong affirmative action policies, black students were still underrepresented at UC Berkeley.
 
-```{r, fig.cap = "Ethnic breakdown of Berkeley over time, by percentage of the student population."}
+```{r, fig.cap = "Ethnic breakdown of Berkeley over time, by percentage of the student population.", fig.asp = 0.5, fig.width = 10}
 grad_time_data <- read_csv("../clean_data/grad_time_data.csv.gz")
 
 ethnic_breakdown <- grad_time_data %>% 
@@ -305,15 +304,15 @@ After 1996, the ethnic composition of Berkeley began to stabilize. The average p
 
 It is also interesting to note which populations did not see any effect from affirmative action. The percentage of the student body that was Native American and Pacific Islander remained small and relatively unchanged over the thirty two year period. These groups are clearly underrepresented minorities, but affirmative action policies did not appear to have any effect on how many were admitted.
 
-**How Long do Students Take to Graduate**
+##**How Long do Students Take to Graduate**
 
 The time it takes to graduate can be influenced by a variety of factors. The difficulty of the major, the individual academic strength of the student, and the cost of staying in school all affect how long it takes for a student to earn his or her degree. Over the past thirty years, the cost of tuition has skyrocketed. We can observe how this trend affects how long students stay in school, and we can further separate the student body by other metrics to see if there are other strong determiners of graduation time.
 
 According to the data, students have been graduating faster over the past thirty years. The average number of years spent in school by a student graduating in 1983 was 4.620. This number decreased almost every single year for the next thirty two years, with the average reaching 4.049 in 2008. We predicted this trend of time spent in school decreasing, as we expected rising tuition costs to push people to graduate faster. Still, the full extent of the trend was surprising. Students in 1983 spent on average more than an extra semester in school compared to students in 2008.
 
-Further trends can be discovered by dividing the students up into different categories. Females graduate faster than males, on average. Out-of-state students graduate slightly faster than in-state students. The ethnic breakdown of graduation time is shown in figure **INSERT**. The residency gap can be explained by the increased tuition costs for out-of-state students. This would also explain why international students graduate faster compared to other groups of students. The rest of the ethnicity gap may be explained cultural and socioeconomic factors that affect school performance, but further research would be required to draw any definitive conclusions.
+Further trends can be discovered by dividing the students up into different categories. Females graduate faster than males, on average. Out-of-state students graduate slightly faster than in-state students. The ethnic breakdown of graduation time is shown in figure 9. The residency gap can be explained by the increased tuition costs for out-of-state students. This would also explain why international students graduate faster compared to other groups of students. The rest of the ethnicity gap may be explained cultural and socioeconomic factors that affect school performance, but further research would be required to draw any definitive conclusions.
 
-```{r, fig.cap = "Graduation time by ethnicity. Only includes data from students who entered Berkeley as a freshman."}
+```{r, fig.cap = "Graduation time by ethnicity. Only includes data from students who entered Berkeley as a freshman.", fig.asp = 0.5, fig.width = 10}
 grad_time_by_ethnicity <- grad_time_data %>% 
   filter(entry_status == "New Freshmen",
          !is.na(time_to_grad)) %>% 
@@ -333,9 +332,7 @@ ggplot(grad_time_by_ethnicity) +
   theme_bw()
 ```
 
-An interesting metric to analyze is the graduation time by college. Figure **INSERT** shows this breakdown. Haas is not included because incoming freshman are not admitted into Haas, so the time taken to graduate by students in Haas is skewed compared to students in other colleges. Students in Chemistry, Environmental Design, and Natural Resources take longer to graduate than their peers in Letters & Science and Engineering. The majors offered by the Engineering department are generally considered to be difficult, but students actually complete these majors relatively quickly compared to majors offered by other colleges. The longer graduation times from the Chemistry, Environmental Design, and Natural Resources colleges may be explained by the career paths for students in these departments. Perhaps it is common in these fields to take an extra semester in order to learn as much as possible before beginning research or industry jobs. Perhaps it is common to take a co-op job, which often delays graduation by a semester or two. Whatever the reason may be, it appears that the perceived difficulty of the majors offered by each department do not correlate with how long it takes to graduate.
-
-```{r, fig.cap = "Gradation time by College. Only includes data from students who entered Berkeley as a freshman."}
+```{r, fig.cap = "Gradation time by College. Only includes data from students who entered Berkeley as a freshman.", fig.asp = 0.5, fig.width = 8}
 grad_time_by_college <- grad_time_data %>% 
   filter(entry_status == "New Freshmen" &
          college != "Haas School of Business" &
@@ -357,8 +354,9 @@ ggplot(grad_time_by_college) +
   theme_bw()
 ```
 
+An interesting metric to analyze is the graduation time by college. Figure 10 shows this breakdown. Haas is not included because incoming freshman are not admitted into Haas, so the time taken to graduate by students in Haas is skewed compared to students in other colleges. Students in Chemistry, Environmental Design, and Natural Resources take longer to graduate than their peers in Letters & Science and Engineering. The majors offered by the Engineering department are generally considered to be difficult, but students actually complete these majors relatively quickly compared to majors offered by other colleges. The longer graduation times from the Chemistry, Environmental Design, and Natural Resources colleges may be explained by the career paths for students in these departments. Perhaps it is common in these fields to take an extra semester in order to learn as much as possible before beginning research or industry jobs. Perhaps it is common to take a co-op job, which often delays graduation by a semester or two. Whatever the reason may be, it appears that the perceived difficulty of the majors offered by each department do not correlate with how long it takes to graduate.
 
-**Conclusion**
+##**Conclusion**
 
 The data and analysis revealed many interesting results. Trends in the economy can have an impact on which students are admitted, what majors are chosen, and how fast people graduate. Policy changes made by the state of California regarding affirmative action have greatly affected the ethnic makeup of Berkeley students. The composition of inteded majors can greatly differ in terms of ethnic makeup. Policy changes are an appropriate method for dealing with the limited resources and growing student interest in computer science.
 
